@@ -62,7 +62,7 @@ def route_notifications():
         credentials = auth.credentials_from_json(profile.get('credentials'))
         tservice = tasks.build_service(credentials)
         gservice = glass.build_service(credentials)
-        tasks.delete(tservice, id=item.get('task_id'))
+        tasks.delete(tservice, item.get('task_id'))
     
     # {
     #     "collection": "timeline",
