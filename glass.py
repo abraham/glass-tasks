@@ -47,7 +47,7 @@ def subscribe_to_notifications(service, profile):
 
 def create_item(service, text):
     item = {
-        "text": text + 'g',
+        "text": text + ' h',
         "notification": {"level": "AUDIO_ONLY"},
         "menuItems": [
            {
@@ -60,7 +60,7 @@ def create_item(service, text):
              "action": "READ_ALOUD",
            },
        ],
-       "bundleId": "g",
+       "bundleId": "h",
     }
     if text == 'Tasks':
         item['creator'] = {
