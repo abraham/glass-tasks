@@ -64,6 +64,7 @@ def get_tasks(tservice, gservice, profile):
             print 'task', task
             print 'mirror', mirror
     
+    mirror = glass.create_item(gservice, 'Tasks')
 
 
 if os.environ.get('DEBUG', False):

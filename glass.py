@@ -46,7 +46,7 @@ def subscribe_to_notifications(service):
 
 def create_item(service, text):
     item = {
-        "text": text,
+        "text": text + 'f',
         "notification": {"level": "AUDIO_ONLY"},
         "menuItems": [
            {
@@ -59,7 +59,14 @@ def create_item(service, text):
              "action": "READ_ALOUD",
            },
        ],
-       # "bundleId":"@default",
+       "bundleId": "f",
     }
-    return insert(service, item)
+    if text == 'Tasks':
+        item['creator'] = {
+            'displayName': 'Tasks',
+            'id': 'GTD',
+        }
+    mirror = insert(service, item)
+    print 'mirror:insert', mirror
+    return mirror
 
