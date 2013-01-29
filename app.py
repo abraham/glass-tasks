@@ -24,24 +24,7 @@ def get_index():
     tservice = tasks.build_service(credentials)
     gservice = glass.build_service(credentials)
     
-    tasksx = tservice.tasks().list(tasklist='@default').execute()
-    for task in tasksx['items'][0:3]:
-        in_db = tasks.find_by_id(task.get('id'))
-        if not in_db:
-            print 'not in db'
-            # send notification
-            # insert in db
-            mirror = glass.create_item(gservice, task['title'])
-            models.create_task(task, mirror, profile)
-            print 'task', task
-            print 'mirror', mirror
-    
-    # tasklists = tasks.list_lists(tservice)
-    
-    # tasks_from_list = tasks.list_taks(tservice, taskslist['items'][0])
-    
-    
-    
+    get_tasks(tservice, gservice, profile)
     return 'hello ', profile.get('email'), ' <a href="/auth/end">logout</a>'
 
 
@@ -62,14 +45,26 @@ def route_notifications():
         credentials = auth.credentials_from_json(profile.get('credentials'))
         tservice = tasks.build_service(credentials)
         gservice = glass.build_service(credentials)
+        
         tasks.delete(tservice, item.get('task_id'))
+        get_tasks(tservice, gservice, profile)
     
-    # {
-    #     "collection": "timeline",
-    #     "itemId": "347859ec-da2a-41f7-b00c-bd9083e6465c",
-    #     "operation": "DELETE"
-    # }
     return '{"status":"ok"}'
+
+def get_tasks(tservice, gservice, profile):
+    tasksx = tservice.tasks().list(tasklist='@default').execute()
+    for task in tasksx['items'][0:3]:
+        in_db = tasks.find_by_id(task.get('id'))
+        if not in_db:
+            print 'not in db'
+            # send notification
+            # insert in db
+            mirror = glass.create_item(gservice, task['title'])
+            models.create_task(task, mirror, profile)
+            print 'task', task
+            print 'mirror', mirror
+    
+
 
 if os.environ.get('DEBUG', False):
     print '==================================='
