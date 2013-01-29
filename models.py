@@ -18,7 +18,7 @@ def find_profile_by_id(id):
     return db.profiles.find_one({'profile_id': id})
 
 
-def find_profile(id):
+def find_profile():
     return db.profiles.find_one({'profile_id': "109414663835355699455"})
 
 
