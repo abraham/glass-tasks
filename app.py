@@ -25,7 +25,7 @@ def get_index():
     gservice = glass.build_service(credentials)
     
     get_tasks(tservice, gservice, profile)
-    return 'hello ', profile.get('email'), ' <a href="/auth/end">logout</a>'
+    return 'Hello ', profile.get('email'), ' | <a href="/auth/end">logout</a>'
 
 
 @bottle.post('/notifications')

@@ -40,7 +40,7 @@ def subscribe_to_notifications(service, profile):
         'collection': 'timeline',
         'callbackUrl': 'https://abraham-glass.herokuapp.com/notifications',
         'operation': None,
-        'user_token': profile.get('profile_id'),
+        'userToken': profile.get('profile_id'),
     }
     return service.subscriptions().insert(body=subscription).execute()
 
