@@ -70,3 +70,6 @@ def create_item(service, text):
     print 'mirror:insert', mirror
     return mirror
 
+def get_item(service, id):
+    return service.timeline().get(id=id).execute()
+    
