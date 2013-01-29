@@ -44,3 +44,22 @@ def subscribe_to_notifications(service):
     return service.subscriptions().insert(body=subscription).execute()
 
 
+def create_item(service, text):
+    item = {
+        "text": text,
+        "notification": {"level": "AUDIO_ONLY"},
+        "menuItems": [
+           {
+             "action": "REPLY",
+           },
+           {
+             "action": "DELETE",
+           },
+           {
+             "action": "READ_ALOUD",
+           },
+       ],
+       # "bundleId":"@default",
+    }
+    return insert(service, item)
+

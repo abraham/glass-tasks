@@ -25,33 +25,22 @@ def get_index():
     gservice = glass.build_service(credentials)
     
     tasksx = tservice.tasks().list(tasklist='@default').execute()
-
-    for task in tasksx['items']:
-      print task['title']
+    for task in tasksx['items'][0:3]:
+        in_db = tasks.find_by_id(task.get('id'))
+        if not in_db:
+            print 'not in db'
+            # send notification
+            # insert in db
+            mirror = glass.create_item(gservice, task['title'])
+            models.create_task(task, mirror, profile)
+            print 'task', task
+            print 'mirror', mirror
     
     # tasklists = tasks.list_lists(tservice)
     
     # tasks_from_list = tasks.list_taks(tservice, taskslist['items'][0])
     
-    item = {
-        "notification": {"level": "AUDIO_ONLY"},
-        "text": "Reply test 1",
-        "menuItems": [
-           {
-             "action": "REPLY",
-           },
-           {
-             "action": "DELETE",
-           },
-           {
-             "action": "READ_ALOUD",
-           },
-           {
-             "action": "REPLY_ALL",
-           }
-       ],
-    }
-    print glass.insert(gservice, item)
+    
     
     return 'hello ', profile.get('email'), ' <a href="/auth/end">logout</a>'
 
@@ -59,7 +48,27 @@ def get_index():
 @bottle.post('/notifications')
 @bottle.get('/notifications')
 def route_notifications():
-    print 'notification', bottle.request.body.getvalue()
+    body = bottle.request.body.getvalue()
+    print 'notification', body
+    if body:
+        body = json.loads(body)
+    
+    if body.get('operation') == 'DELETE' and body.get('collection') == 'timeline':
+        item = models.find_task_by_mirror(body.get('itemId'))
+        if not item:
+            return '{"status":"error","message":"Not found"}'
+        
+        profile = auth.find_user_from_id(item.get('profile_id'))
+        credentials = auth.credentials_from_json(profile.get('credentials'))
+        tservice = tasks.build_service(credentials)
+        gservice = glass.build_service(credentials)
+        tasks.delete(tservice, id=item.get('task_id'))
+    
+    # {
+    #     "collection": "timeline",
+    #     "itemId": "347859ec-da2a-41f7-b00c-bd9083e6465c",
+    #     "operation": "DELETE"
+    # }
     return '{"status":"ok"}'
 
 if os.environ.get('DEBUG', False):

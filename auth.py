@@ -97,6 +97,12 @@ def find_user_from_session(request):
     return profile
 
 
+def find_profile_from_id(id):
+    profile = models.find_profile_by_id(id)
+    print 'find_profile_by_id', profile
+    return profile
+
+
 def generate_secret():
     return base64.urlsafe_b64encode(os.urandom(64)).replace('=', '')
 

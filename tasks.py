@@ -18,6 +18,8 @@ from apiclient.discovery import build
 from oauth2client.client import OAuth2WebServerFlow
 
 
+import models
+
 def build_service(credentials):
     http = httplib2.Http()
     http = credentials.authorize(http)
@@ -38,5 +40,10 @@ def create_tasks(service, tasklist='@default'):
     return service.tasks().list(tasklist='@default').execute()
 
 
-def create_tasks(service, tasklist='@default'):
-    return service.tasks().list(tasklist='@default').execute()
+def delete(service, task_id, tasklist='@default'):
+    result = service.tasks().delete(tasklist='@default', task=task_id).execute()
+    models.delete_task(task_id)
+
+def find_by_id(id):
+    return models.find_task(id)
+    
