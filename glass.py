@@ -19,4 +19,28 @@ def build_service(credentials):
     
 def insert(service, item):
     return service.timeline().insert(body=item).execute()
-    
+
+
+def subscribe_to_notifications(service):
+    """Subscribe to notifications for the current user.
+
+    Args:
+    service: Authorized Glass service.
+    collection: Collection to subscribe to (supported values are "timeline"
+                and "locations").
+    user_token: Opaque token used by the Glassware to identify the user the
+                notification pings are sent for (recommended).
+    verify_token: Opaque token used by the Glassware to verify that the
+                  notification pings are sent by the API (optional).
+    callback_url: URL receiving notification pings (must be HTTPS).
+    operation: List of operations to subscribe to. Valid values are "UPDATE",
+               "INSERT" and "DELETE" or None to subscribe to all.
+    """
+    subscription = {
+        'collection': 'timeline',
+        'callbackUrl': 'https://abraham-glass.herokuapp.com/notifications',
+        'operation': None,
+    }
+    return service.subscriptions().insert(body=subscription).execute()
+
+

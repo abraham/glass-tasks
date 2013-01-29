@@ -33,21 +33,31 @@ def get_index():
     
     # tasks_from_list = tasks.list_taks(tservice, taskslist['items'][0])
     
-    n = {
+    item = {
         "notification": {"level": "AUDIO_ONLY"},
-        "text": "Reply test",
+        "text": "Reply test 1",
         "menuItems": [
            {
-             "action": "REPLY"
+             "action": "REPLY",
+           },
+           {
+             "action": "DELETE",
+           },
+           {
+             "action": "READ_ALOUD",
+           },
+           {
+             "action": "REPLY_ALL",
            }
        ],
     }
-    print glass.insert(gservice, n)
+    print glass.insert(gservice, item)
     
     return 'hello ', profile.get('email'), ' <a href="/auth/end">logout</a>'
 
 
-@bottle.route('/notifications')
+@bottle.post('/notifications')
+@bottle.get('/notifications')
 def route_notifications():
     print 'notification', bottle.request.body.getvalue()
     return '{"status":"ok"}'

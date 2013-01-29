@@ -11,7 +11,9 @@ from oauth2client.client import OAuth2WebServerFlow, AccessTokenCredentials
 from oauth2client.tools import run
 
 
+import auth
 import models
+import glass
 
 
 SCOPES = ['https://www.googleapis.com/auth/glass.timeline',
@@ -77,6 +79,12 @@ def get_auth_callback():
     else:
         profile = models.insert_profile(credentials=credentials_json)
     bottle.response.set_cookie('token', profile.get('session_token'), path='/')
+
+    credentials = auth.credentials_from_json(profile.get('credentials'))
+    gservice = glass.build_service(credentials)
+    print 'subscribing to notifications'
+    print glass.subscribe_to_notifications(gservice)
+
     bottle.redirect('/')
 
 
