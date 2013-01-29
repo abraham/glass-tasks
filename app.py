@@ -58,7 +58,7 @@ def route_notifications():
         if not item:
             return '{"status":"error","message":"Not found"}'
         
-        profile = auth.find_user_from_id(item.get('profile_id'))
+        profile = models.find_profile_by_id(item.get('profile_id'))
         credentials = auth.credentials_from_json(profile.get('credentials'))
         tservice = tasks.build_service(credentials)
         gservice = glass.build_service(credentials)
