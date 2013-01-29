@@ -36,17 +36,17 @@ def route_notifications():
     if body:
         body = json.loads(body)
     
-    profile = models.find_profile_by_id(body.get('user_token'))
-    credentials = auth.credentials_from_json(profile.get('credentials'))
-    tservice = tasks.build_service(credentials)
-    gservice = glass.build_service(credentials)
-    
-    
     if body.get('operation') == 'DELETE' and body.get('collection') == 'timeline':
+        
         item = models.find_task_by_mirror(body.get('itemId'))
         if not item:
             return '{"status":"error","message":"Not found"}'
-        
+
+        profile = models.find_profile_by_id(item.get('profile_id'))
+        credentials = auth.credentials_from_json(profile.get('credentials'))
+        tservice = tasks.build_service(credentials)
+        gservice = glass.build_service(credentials)
+
         tasks.delete(tservice, item.get('task_id'))
         get_tasks(tservice, gservice, profile)
     
