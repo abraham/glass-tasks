@@ -35,7 +35,12 @@ def get_index():
     
     n = {
         "notification": {"level": "AUDIO_ONLY"},
-        "text": "Default tasks list",
+        "text": "Reply test",
+        "menuItems": [
+           {
+             "action": "REPLY"
+           }
+       ],
     }
     print glass.insert(gservice, n)
     
