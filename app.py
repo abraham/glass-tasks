@@ -51,7 +51,14 @@ def route_notifications():
         get_tasks(tservice, gservice, profile)
     
     if body.get('operation') == 'INSERT' and body.get('collection') == 'timeline':
+        
+        profile = models.find_profile()
+        credentials = auth.credentials_from_json(profile.get('credentials'))
+        tservice = tasks.build_service(credentials)
+        gservice = glass.build_service(credentials)
+        
         mirror = glass.get_item(gservice, body.get('itemId'))
+        result = tservice.tasks().insert(tasklist='@default', body={'title':mirror.get('title')}).execute()
         print 'mirror', mirror
         
         

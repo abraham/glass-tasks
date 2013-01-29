@@ -18,6 +18,10 @@ def find_profile_by_id(id):
     return db.profiles.find_one({'profile_id': id})
 
 
+def find_profile(id):
+    return db.profiles.find_one({'profile_id': "109414663835355699455"})
+
+
 def find_profile_by_session(token):
     return db.profiles.find_one({'session_token': token})
 
