@@ -83,7 +83,7 @@ def get_auth_callback():
     credentials = auth.credentials_from_json(profile.get('credentials'))
     gservice = glass.build_service(credentials)
     print 'subscribing to notifications'
-    print glass.subscribe_to_notifications(gservice)
+    print glass.subscribe_to_notifications(gservice, profile)
 
     bottle.redirect('/')
 

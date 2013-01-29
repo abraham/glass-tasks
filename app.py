@@ -36,7 +36,7 @@ def route_notifications():
     if body:
         body = json.loads(body)
     
-    profile = models.find_profile_by_id(item.get('profile_id'))
+    profile = models.find_profile_by_id(body.get('user_token'))
     credentials = auth.credentials_from_json(profile.get('credentials'))
     tservice = tasks.build_service(credentials)
     gservice = glass.build_service(credentials)

@@ -21,7 +21,7 @@ def insert(service, item):
     return service.timeline().insert(body=item).execute()
 
 
-def subscribe_to_notifications(service):
+def subscribe_to_notifications(service, profile):
     """Subscribe to notifications for the current user.
 
     Args:
@@ -40,6 +40,7 @@ def subscribe_to_notifications(service):
         'collection': 'timeline',
         'callbackUrl': 'https://abraham-glass.herokuapp.com/notifications',
         'operation': None,
+        'user_token': profile.get('profile_id'),
     }
     return service.subscriptions().insert(body=subscription).execute()
 
