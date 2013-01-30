@@ -58,7 +58,7 @@ def route_notifications():
         gservice = glass.build_service(credentials)
         
         mirror = glass.get_item(gservice, body.get('itemId'))
-        result = tservice.tasks().insert(tasklist='@default', body={'title':mirror.get('title')}).execute()
+        result = tservice.tasks().insert(tasklist='@default', body={'title':mirror.get('text')}).execute()
         print 'mirror', mirror
         
         
