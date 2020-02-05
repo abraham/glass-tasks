@@ -1,5 +1,5 @@
 bottle==0.10.9
 pymongo==2.4.1
 google-api-python-client==1.0
-requests==0.13.1
+requests==2.20.0
 oauth2==1.5.211
